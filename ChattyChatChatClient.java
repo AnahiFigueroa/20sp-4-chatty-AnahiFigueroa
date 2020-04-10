@@ -1,65 +1,82 @@
 import java.io.*; 
-import java.net.*;
-import java.net.Socket; 
-
+import java.net.*; 
 
 
 public class ChattyChatChatClient {
+
+	
 	public static void main (String[] args) {
-		String hostname = "local host";
-		int port = 40000;
+		
+		String hostname = args[0];   //taking in a string from argument
 		Socket socket = null; 
+		int portNumber = Integer.parseInt(args[1]);
 		
 		try {
 			
-			socket = new Socket (hostname, port); 
+			socket = new Socket (hostname, portNumber); 
 			BufferedReader in = 
 				new BufferedReader(
 				new InputStreamReader(
-				socket.getInputStream())); 
-			OutputStream out = 
-					socket.getOutputStream(), true); 
-			String response = in.readLine(); 
-			System.out.println(response); 
-			for (int i = 0; i < 2; i++) {
-				System.out.println(in.readLine()); 
-			}
+				socket.getInputStream()));
 			
-			boolean done = false; 
-			while (!done) {
-				String userInput = userIn.readLine(); 
-				out.println(userInput); 
-				if (userInput.contentEquals(".")) {
-					done = true; 
+			PrintWriter out = new PrintWriter(socket.getOutputStream(),true); 
+			
+			//one thread needs to send messages and another threads needs to read messages
+			//each thread needs to call @override public void run
+			
+			Thread sendmessage = new Thread(new Runnable() {
+				@Override
+				  public void run() {
+					BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in)); 
+					boolean done = false; 
+					while (!done) {
+						String userInput = ""; 
+						try {
+							userInput = userIn.readLine();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						if (userInput.contentEquals("/quit")) {
+							done = true; 
+						}
+						out.println(userInput); 
+						out.flush();                                  //resets it
+						
+					}//END while
 				}
 				
-				String response = null; 
-			try {
-				response = in.readLine(); 
-				if (response == null || response.equals("")) {
-					done = true; 
-				}
-			} catch (IOException e) {
-				System.out.println("Error recieving" + "from server"); 
-				done = true; 
-			}
-				System.out.println(response); 
-			}//END while (!done)
-			
-			
-
-			} catch (IOException e) {
-				System.out.println("Error connecting to server"); 
-			}
+			}); 
 		
-	        finally {
-			  try {
-					socket.close(); 
-				}catch (Exception e) {
-				   //it's fine
+
+			Thread readmessage = new Thread(new Runnable() {
+				@Override
+				  public void run() {
+					boolean done = false; 
+					while (!done) {
+						String userInput = ""; 
+						try {
+							userInput = in.readLine();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if (userInput.contentEquals("/quit")) {
+							done = true; 
+						}
+						System.out.println(userInput); 
+						
+					}//END while
 				}
-			} //END finally
+				
+			}); 
+
+			
+	sendmessage.start();
+	readmessage.start();
 	
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}//END main()
 		  
