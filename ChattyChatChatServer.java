@@ -3,17 +3,22 @@ import java.io.PrintWriter;
 import java.io.IOException; 
 import java.io.InputStreamReader; 
 import java.net.ServerSocket; 
-import java.net.Socket; 
+import java.net.Socket;
+import java.util.Vector; 
 
 public class ChattyChatChatServer {
+	static Vector<ChatHandler> chathandlers = new Vector <ChatHandler>();
+	static int clientNumber = 0; 
+	
 	public static void main(String[] args) throws IOException{
-	    int clientNumber = 0; 
 		boolean server = true; 
 		ServerSocket listener = null; 
+		int portNumber = Integer.parseInt(args[0]);
+
 		 		
 		 		try {
 		 			
-		 			listener = new ServerSocket(4000); 
+		 			listener = new ServerSocket(portNumber); 
 
 		 			} catch (IOException e) {
 		 				System.out.println("Error connecting to server"); 
@@ -21,33 +26,28 @@ public class ChattyChatChatServer {
 		 			}
 		 		
 		 		while (server) {
-		 			Socket socket = null; 
+		 		
 		 			try {
-		 				socket = listener.accept(); 
-		 				System.out.println("New connection with client" + clientNumber); 
-		 				PrintWriter out = new PrintWriter(
-		 						socket.getOutputStream(), true);
-		 				BufferedReader in = 
-		 						new BufferedReader(
-		 						new InputStreamReader(
-		 						socket.getInputStream())); 
 		 				
-		 			    boolean done = false; 
-		 				while (!done){
-		 					String input = in.readLine(); 
-		 					if (input == null || input.equals(".")) {
-		 						done = true; 
-		 					}
+		 				ChatHandler chat = new ChatHandler(listener.accept(), clientNumber, "default"); 
 		 				
-		 			} //END while (!done) 
+		 				System.out.println("Assigning thread to new client"); 
+		 				Thread a = new Thread(chat); 
+		 				synchronized(chathandlers) {
+		 					chathandlers.add(chat);  //tell all the other threads that this new chat has joined
+		 				}
 		 				
+		 				a.start(); 
+		 				clientNumber++; 	 
+	 				
 		 			} catch (IOException e) {
 		 				System.out.println("Error while talking with client" + clientNumber); 
 		 			}
 		 			
 		 			finally {
 		 				try {
-		 					socket.close(); 
+		 					listener.close(); 
+		 					
 		 				}catch (Exception e) {
 		 				   //it's okay
 		 				}
