@@ -6,17 +6,17 @@ import java.net.Socket;
 
 
 public class ChatHandler implements Runnable {
-	int clientNumber = 0; 
+	int clientNumber = 0;
 	String clientName = "";
-	Socket s; 
-    
+	Socket s;
+
 	public ChatHandler(Socket socket, int i, String a) {
-		clientNumber = i; 
-		clientName = a; 
-		s = socket; 
+		clientNumber = i;
+		clientName = a;
+		s = socket;
 	}
-	
-	
+
+
 	@SuppressWarnings("null")
 	@Override
 	public void run() {
@@ -25,27 +25,27 @@ public class ChatHandler implements Runnable {
 			out = new PrintWriter(s.getOutputStream(), true);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		} 
-		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in)); 
-		boolean done = false; 
+		}
+		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+		boolean done = false;
 		while (!done) {
-			String userInput = ""; 
+			String userInput = "";
 			try {
 				userInput = userIn.readLine();
 				userInput.split("");
-				String[] input = null; 
-				
+				String[] input = null;
+
 				if(input[0] == "/quit") {
-					done = true; 
+					done = true;
 					ChattyChatChatServer.chathandlers.remove(this); //removing chathandler from vector
 					System.out.println("Disconnecting from server: end of program");
-					s.close(); 
+					s.close();
 				}
-				
+
 				else if(input[0] == "/dm") {
-					String message = ""; 
+					String message = "";
 					for(int i = 2; i < input.length; i++) {
-						message += input[i] + " "; 
+						message += input[i] + " ";
 					}
 					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
 						if(input[1]== chat.clientName) {
@@ -53,39 +53,37 @@ public class ChatHandler implements Runnable {
 							temp.println(message); //printing to the person's chathandler
 						}
 					}
-					
-		
+
+
 				}
 				else if (input[0] == "/nick") {
-					clientName = input[1]; 
+					clientName = input[1];
 				}
 				else {
-					String message = ""; 
+					String message = "";
 					for(int i = 0; i < input.length; i++) {
-						message += input[i] + " "; 
+						message += input[i] + " ";
 					}
 					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
 							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
 							temp.println(message); //printing to the person's chathandler
-						
+
 					}
-					
-					
+
+
 				}
-			
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			if (userInput.contentEquals("/quit")) {
-				done = true; 
+				done = true;
 			}
-			out.println(userInput); 
+			out.println(userInput);
 			out.flush();                                  //resets it
-			
-		}//END while
-		
-	}
-	
-}//Chat handler
-		  
 
+		}//END while
+
+	}
+
+}//Chat handler class
