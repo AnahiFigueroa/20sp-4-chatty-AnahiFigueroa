@@ -1,4 +1,3 @@
-import java.util.Vector;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,12 +16,8 @@ public class ChatHandler implements Runnable {
 		s = socket; 
 	}
 	
-	public static void main(String[] args) {
-		
-   
-     
-	}
 	
+	@SuppressWarnings("null")
 	@Override
 	public void run() {
 		PrintWriter out = null;
@@ -41,13 +36,41 @@ public class ChatHandler implements Runnable {
 				String[] input = null; 
 				
 				if(input[0] == "/quit") {
+					done = true; 
+					ChattyChatChatServer.chathandlers.remove(this); //removing chathandler from vector
 					System.out.println("Disconnecting from server: end of program");
 					s.close(); 
 				}
 				
-				if(input[0] == "/dm") {
-					done = false; 
-					System.out.println("Connecting to the server");
+				else if(input[0] == "/dm") {
+					String message = ""; 
+					for(int i = 2; i < input.length; i++) {
+						message += input[i] + " "; 
+					}
+					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
+						if(input[1]== chat.clientName) {
+							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
+							temp.println(message); //printing to the person's chathandler
+						}
+					}
+					
+		
+				}
+				else if (input[0] == "/nick") {
+					clientName = input[1]; 
+				}
+				else {
+					String message = ""; 
+					for(int i = 0; i < input.length; i++) {
+						message += input[i] + " "; 
+					}
+					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
+							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
+							temp.println(message); //printing to the person's chathandler
+						
+					}
+					
+					
 				}
 			
 			} catch (IOException e) {
@@ -60,13 +83,6 @@ public class ChatHandler implements Runnable {
 			out.flush();                                  //resets it
 			
 		}//END while
-		
-	
-	  
-		
-		
-		
-		
 		
 	}
 	
