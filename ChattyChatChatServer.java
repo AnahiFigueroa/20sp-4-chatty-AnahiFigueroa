@@ -46,7 +46,7 @@ public class ChattyChatChatServer {
 
 		 			finally {
 		 				try {
-		 					listener.close();
+		 					//listener.close();
 
 		 				}catch (Exception e) {
 		 				   //it's okay
