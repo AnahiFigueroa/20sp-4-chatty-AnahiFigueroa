@@ -25,7 +25,7 @@ public class ChattyChatChatServer {
 		 				server = false;
 		 			}
 
-		 		while (server) {
+		 		if (server) {
 
 		 			try {
 
@@ -42,7 +42,7 @@ public class ChattyChatChatServer {
 
 		 			} catch (IOException e) {
 		 				System.out.println("Error while talking with client" + clientNumber);
-            listener.close();
+
 		 			}
 
 		 			finally {
