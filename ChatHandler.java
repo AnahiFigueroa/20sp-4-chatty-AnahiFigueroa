@@ -87,4 +87,3 @@ public class ChatHandler implements Runnable {
 	}
 
 }//Chat handler class
-
