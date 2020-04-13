@@ -19,7 +19,7 @@ public class ChattyChatChatClient {
 				new InputStreamReader(
 				socket.getInputStream()));
 
-			// PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
@@ -30,7 +30,7 @@ public class ChattyChatChatClient {
 					// BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
-						PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+						//PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 						BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 						String userInput = "";
 						try {
