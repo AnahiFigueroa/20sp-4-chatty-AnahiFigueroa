@@ -29,7 +29,7 @@ public class ChattyChatChatServer {
 
 		 			try {
             socket = listener.accept();
-		 				ChatHandler chat = new ChatHandler(socket, clientNumber++, chathandlers);
+		 				ChatHandler chat = new ChatHandler(socket,clientNumber, "default");
 		 				System.out.println("Assigning thread to new client");
 		 				Thread a = new Thread(chat);
 		 				synchronized(chathandlers) {
