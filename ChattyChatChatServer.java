@@ -25,21 +25,25 @@ public class ChattyChatChatServer {
 		 				server = false;
 		 			}
 
-		 		if (server) {
+		 		while (server) {
 
 		 			try {
 
 		 				ChatHandler chat = new ChatHandler(listener.accept(), clientNumber, "default");
 
 		 				System.out.println("Assigning thread to new client");
-		 				//Thread a = new Thread(chat);
+		 				Thread a = new Thread(chat);
 		 				synchronized(chathandlers) {
-		 					chathandlers.add(chat);  //tell all the other threads that this new chat has joined
+		 				chathandlers.add(chat);  //tell all the other threads that this new chat has joined
+            new Thread(chat).start();
+            a.start();
+            clientNumber++;
+
 		 				}
 
-            new Thread(chat).start();
-		 				//a.start();
-		 				clientNumber++;
+            // new Thread(chat).start();
+            // rt();
+            // tNumber++;
 
 		 			} catch (IOException e) {
 		 				System.out.println("Error while talking with client" + clientNumber);
