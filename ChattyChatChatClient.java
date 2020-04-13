@@ -28,7 +28,7 @@ public class ChattyChatChatClient {
 				  @Override
 				  public void run() {
 					BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
-					boolean done = false; 
+					boolean done = false;
 					while (!done) {
 						String userInput = "";
 						try {
@@ -36,9 +36,9 @@ public class ChattyChatChatClient {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						if (userInput.contentEquals("/quit")) {
-							done = true;
-						}
+						// if (userInput.contentEquals("/quit")) {
+						// 	done = true;
+						// }
 						out.println(userInput);
 						out.flush();                                  //resets it
 
@@ -60,9 +60,9 @@ public class ChattyChatChatClient {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						if (userInput.contentEquals("/quit")) {
-							done = true;
-						}
+						// if (userInput.contentEquals("/quit")) {
+						// 	done = true;
+						// }
 						System.out.println(userInput);
 
 					}//END while
