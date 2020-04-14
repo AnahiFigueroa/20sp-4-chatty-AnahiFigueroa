@@ -42,8 +42,9 @@ public class ChattyChatChatClient {
 						if (userInput.contentEquals("/quit")) {
 							done = true;
 						}
-						socket.println(userInput);
-						out.flush();                                  //resets it
+						out.println(userInput);
+						socket.out.println(in.readline());
+						//out.flush();                                  //resets it
 
 					}//END while
 				}
@@ -66,9 +67,12 @@ public class ChattyChatChatClient {
 						if (userInput.contentEquals("/quit")) {
 							done = true;
 						}
-						System.out.println(userInput);
+
+						 System.out.println(userInput);
+						 socket.out.println(in.readline());
 
 					}//END while
+					 socket.out.println(in.readline());
 				}
 
 			});
