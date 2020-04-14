@@ -28,7 +28,7 @@ public class ChattyChatChatClient {
 				  @Override
 				  public void run() {
 
-				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+				 // BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
 					// PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
@@ -47,7 +47,7 @@ public class ChattyChatChatClient {
 						// 	done = true;
 						// }
 						// out.println(userInput);
-						out.flush();                                  //resets it
+					//	out.flush();                                  //resets it
 
 					}//END while
 				}
