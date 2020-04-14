@@ -43,7 +43,7 @@ public class ChattyChatChatClient {
 							done = true;
 						}
 						out.println(userInput);
-						socket.out.println(in.readline());
+						Socket.out.println(userInput);
 						//out.flush();                                  //resets it
 
 					}//END while
@@ -69,10 +69,10 @@ public class ChattyChatChatClient {
 						}
 
 						 System.out.println(userInput);
-						 Socket.out.println(in.readline());
+						 Socket.out.println(userInput);
 
 					}//END while
-					 Socket.out.println(in.readline());
+					 Socket.out.println(userInput;
 				}
 
 			});
