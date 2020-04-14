@@ -69,10 +69,10 @@ public class ChattyChatChatClient {
 						}
 
 						 System.out.println(userInput);
-						 socket.out.println(in.readline());
+						 Socket.out.println(in.readline());
 
 					}//END while
-					 socket.out.println(in.readline());
+					 Socket.out.println(in.readline());
 				}
 
 			});
