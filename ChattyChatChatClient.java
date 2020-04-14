@@ -14,10 +14,10 @@ public class ChattyChatChatClient {
 		try {
 
 			socket = new Socket (hostname, portNumber);
-			BufferedReader in =
-				new BufferedReader(
-				new InputStreamReader(
-				socket.getInputStream()));
+			// BufferedReader in =
+			// 	new BufferedReader(
+			// 	new InputStreamReader(
+			// 	socket.getInputStream()));
 
 			// PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
@@ -35,10 +35,11 @@ public class ChattyChatChatClient {
 
 						String userInput = "";
 						try {
-							BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+
               PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+							BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 							userInput = userIn.readLine();
-	            System.out.println("Reading in message");
+	            System.out.println("Reading in message: ");
 							out.println(userInput);
 						} catch (IOException e) {
 							e.printStackTrace();
