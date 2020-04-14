@@ -32,8 +32,8 @@ public class ChatHandler implements Runnable {
 			String userInput = "";
 			try {
 				userInput = userIn.readLine();
-				userInput.split("");
-				String[] input = null;
+				userInput.split("");  //returns array of strings
+				String[] input = userInput.split("");
 
 				if(input[0] == "/quit") {
 					done = true;
