@@ -31,7 +31,7 @@ public class ChattyChatChatClient {
 				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
-					 PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+					//  PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
 						String userInput = "";
 						try {
@@ -63,7 +63,7 @@ public class ChattyChatChatClient {
 					while (!done) {
 						String userInput = "";
 						try {
-							
+
 							userInput = in.readLine();
 							System.out.println(userInput);
 						} catch (IOException e) {
