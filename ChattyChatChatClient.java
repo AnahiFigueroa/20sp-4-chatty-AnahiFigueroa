@@ -42,7 +42,7 @@ public class ChattyChatChatClient {
 						if (userInput.contentEquals("/quit")) {
 							done = true;
 						}
-						out.println(userInput);
+						socket.println(userInput);
 						out.flush();                                  //resets it
 
 					}//END while
