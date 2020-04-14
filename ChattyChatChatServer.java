@@ -33,13 +33,12 @@ public class ChattyChatChatServer {
 
 		 				System.out.println("Assigning thread to new client");
 		 				Thread a = new Thread(chat);
-		 				synchronized(chathandlers) {
+		 				//synchronized(chathandlers) {
 		 				chathandlers.add(chat);  //tell all the other threads that this new chat has joined
-            new Thread(chat).start();
             a.start();
             clientNumber++;
 
-		 				}
+		 		//		}
 
             // new Thread(chat).start();
             // rt();
