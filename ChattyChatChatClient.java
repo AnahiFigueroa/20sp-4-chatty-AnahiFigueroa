@@ -14,12 +14,12 @@ public class ChattyChatChatClient {
 		try {
 
 			socket = new Socket (hostname, portNumber);
-			// BufferedReader in =
-			// 	new BufferedReader(
-			// 	new InputStreamReader(
-			// 	socket.getInputStream()));
+			BufferedReader in =
+				new BufferedReader(
+				new InputStreamReader(
+				socket.getInputStream()));
 
-			// PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
@@ -28,7 +28,7 @@ public class ChattyChatChatClient {
 				  @Override
 				  public void run() {
 
-				 // BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
 					 PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
@@ -37,7 +37,7 @@ public class ChattyChatChatClient {
 						try {
 
             //  PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
-							BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+							//BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 							userInput = userIn.readLine();
 	            System.out.println("Reading in message: ");
 							out.println(userInput);
@@ -63,7 +63,7 @@ public class ChattyChatChatClient {
 					while (!done) {
 						String userInput = "";
 						try {
-							BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+							
 							userInput = in.readLine();
 							System.out.println(userInput);
 						} catch (IOException e) {
