@@ -31,12 +31,12 @@ public class ChattyChatChatClient {
 				 // BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
-					// PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+					 PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
 						String userInput = "";
 						try {
 
-              PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+            //  PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 							BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 							userInput = userIn.readLine();
 	            System.out.println("Reading in message: ");
