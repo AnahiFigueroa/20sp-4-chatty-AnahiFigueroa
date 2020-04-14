@@ -27,20 +27,21 @@ public class ChattyChatChatClient {
 			Thread sendmessage = new Thread(new Runnable() {
 				  @Override
 				  public void run() {
-					// BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
 						//PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
-						BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+						//BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 						String userInput = "";
 						try {
 							userInput = userIn.readLine();
+	            System.out.println("Reading in message");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						// if (userInput.contentEquals("/quit")) {
-						// 	done = true;
-						// }
+						if (userInput.contentEquals("/quit")) {
+							done = true;
+						}
 						out.println(userInput);
 						out.flush();                                  //resets it
 
@@ -62,9 +63,9 @@ public class ChattyChatChatClient {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						// if (userInput.contentEquals("/quit")) {
-						// 	done = true;
-						// }
+						if (userInput.contentEquals("/quit")) {
+							done = true;
+						}
 						System.out.println(userInput);
 
 					}//END while
