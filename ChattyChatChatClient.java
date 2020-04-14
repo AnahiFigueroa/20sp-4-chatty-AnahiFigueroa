@@ -72,7 +72,7 @@ public class ChattyChatChatClient {
 						 Socket.out.println(userInput);
 
 					}//END while
-				//	 Socket.out.println(userInput);
+				  	 Socket.out.println(userInput);
 				}
 
 			});
