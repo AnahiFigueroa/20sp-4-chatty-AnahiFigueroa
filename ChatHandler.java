@@ -1,17 +1,20 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 
 public class ChatHandler implements Runnable {
-	Scanner scn = new Scanner(System.in);
 	int clientNumber = 0;
 	String clientName = "";
 	Socket s;
+	DataInputStream dis = null;
+  DataOutputStream dos = null;
 
-	public ChatHandler(Socket socket, int i, String a,DataInputStream dis, DataOutputStream dos ) {
+	public ChatHandler(Socket socket, int i, String a ) {
 		clientNumber = i;
 		clientName = a;
 		s = socket;
