@@ -13,6 +13,8 @@ public class ChattyChatChatClient {
 		int portNumber = Integer.parseInt(args[1]);
 		Scanner scn = new Scanner(System.in);
 
+
+
 		try {
 
 			socket = new Socket (hostname, portNumber);
@@ -54,8 +56,10 @@ public class ChattyChatChatClient {
 
 					}//END while
 				}
+
 			});
-			
+
+
 			Thread readmessage = new Thread(new Runnable() {
 				@Override
 				  public void run() {
