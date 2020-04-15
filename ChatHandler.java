@@ -6,15 +6,19 @@ import java.net.Socket;
 
 
 public class ChatHandler implements Runnable {
+	Scanner scn = new Scanner(System.in);
 	int clientNumber = 0;
 	String clientName = "";
 	Socket s;
 
-	public ChatHandler(Socket socket, int i, String a) {
-		this.clientNumber = i;
-		this.clientName = a;
-		this.s = socket;
+	public ChatHandler(Socket socket, int i, String a,DataInputStream dis, DataOutputStream dos ) {
+		clientNumber = i;
+		clientName = a;
+		s = socket;
+		this.dis = dis;
+		this.dos = dos;
 	}
+
 
   @SuppressWarnings("null")
 	@Override
