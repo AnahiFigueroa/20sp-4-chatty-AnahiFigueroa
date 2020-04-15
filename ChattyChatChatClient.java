@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 
 public class ChattyChatChatClient {
@@ -12,15 +13,20 @@ public class ChattyChatChatClient {
 		int portNumber = Integer.parseInt(args[1]);
 		Scanner scn = new Scanner(System.in);
 
+
+
 		try {
 
 			socket = new Socket (hostname, portNumber);
-			BufferedReader in =
-				new BufferedReader(
-				new InputStreamReader(
-				socket.getInputStream()));
+			DataInputStream dis = new DataInputStream(socket.getInputStream());
+	        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
-			PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+//			BufferedReader in =
+//				new BufferedReader(
+//				new InputStreamReader(
+//				socket.getInputStream()));
+
+			//PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
@@ -29,7 +35,7 @@ public class ChattyChatChatClient {
 				  @Override
 				  public void run() {
 
-				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+				//  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
 
@@ -38,7 +44,7 @@ public class ChattyChatChatClient {
 						try {
 
 							//userInput = userIn.readLine();
-							out.writeUTF(userInput);
+							dos.writeUTF(userInput);
 	            System.out.println("Sending in message:");
 
 						} catch (IOException e) {
@@ -46,7 +52,7 @@ public class ChattyChatChatClient {
 						}
 
 						// out.println(userInput);
-					   out.flush();                                  //resets it
+					  // dos.flush();                                  //resets it
 
 					}//END while
 				}
@@ -63,7 +69,7 @@ public class ChattyChatChatClient {
 						System.out.println("reading message");
 					//	String userInput = "";
 						try {
-              String userInput = userIn.readUTF();
+              String userInput = dis.readUTF();
 						//	userInput = in.readLine();
 							System.out.println(userInput);
 
@@ -74,7 +80,7 @@ public class ChattyChatChatClient {
 						// if (userInput.contentEquals("/quit")) {
 						// 	done = true;
 						// }
-						    System.out.println(userInput);
+						   // System.out.println(userInput);
 
 					}//END while
 				}
