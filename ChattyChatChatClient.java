@@ -41,6 +41,7 @@ public class ChattyChatChatClient {
 						   BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));  //reading user's input from console
                            System.out.println("Sending message: ");
 							while ((userInput = userIn.readLine()) != null) {
+								System.out.println("Inside while loop for sendmessage");
 								out.println(userInput);
 								System.out.println("echo: " + in.readLine());
 
@@ -53,8 +54,8 @@ public class ChattyChatChatClient {
 							e.printStackTrace();
 						}
 
-						 out.println(userInput);
-					   out.flush();                                  //resets it
+						System.out.println(userInput);
+					     out.flush();                                  //resets it
 
 					}//END while
 				}
@@ -73,6 +74,7 @@ public class ChattyChatChatClient {
 						try {
 
 							while ((userInput = in.readLine()) != null) {
+								System.out.println("Inside while loop for readmessage");
 								out.println(userInput);
 								System.out.println("echo: " + in.readLine());
 							}
