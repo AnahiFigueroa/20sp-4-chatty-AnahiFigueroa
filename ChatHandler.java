@@ -1,4 +1,64 @@
-chat: ChattyChatChatServer.chathandlers) {
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+
+public class ChatHandler implements Runnable {
+	int clientNumber = 0;
+	String clientName = "";
+	Socket s;
+	DataInputStream dis = null;
+  DataOutputStream dos = null;
+
+	public ChatHandler(Socket socket, int i, String a ) {
+		clientNumber = i;
+		clientName = a;
+		s = socket;
+		this.dis = dis;
+		this.dos = dos;
+	}
+
+
+  @SuppressWarnings("null")
+	@Override
+	public void run() {
+		String received;
+		PrintWriter out = null;
+		try {
+			// receive the string
+			received = dis.readUTF();
+			System.out.println(received);
+			out = new PrintWriter(s.getOutputStream(), true);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+		boolean done = false;
+		while (!done) {
+			String userInput = "";
+			try {
+				//System.out.println("Chathandler");
+				userInput = userIn.readLine();
+				userInput.split("");  //returns array of strings
+				String[] input = userInput.split("");
+
+				if(input[0] == "/quit") {
+					done = true;
+					ChattyChatChatServer.chathandlers.remove(this); //removing chathandler from vector
+					System.out.println("Disconnecting from server: end of program");
+					s.close();
+				}
+
+				else if(input[0] == "/dm") {
+					String message = "";
+					for(int i = 2; i < input.length; i++) {
+						message += input[i] + " ";
+					}
+					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
 						if(input[1]== chat.clientName) {
 							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
 							temp.println(message); //printing to the person's chathandler
