@@ -17,6 +17,7 @@ public class ChattyChatChatClient {
 		try {
 
 			socket = new Socket (hostname, portNumber);
+			System.out.println("Connected to server\n");
 			BufferedReader in =
 				new BufferedReader(
 				new InputStreamReader(
@@ -24,21 +25,21 @@ public class ChattyChatChatClient {
 
 			PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
-
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
 
 			Thread sendmessage = new Thread(new Runnable() {
 				  @Override
 				  public void run() {
-				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+
 					boolean done = false;
 					while (!done) {
 
 						String userInput = "";
 
 						try {
-
+						   BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));  //reading user's input from console
+                           System.out.println("Sending message: ");
 							while ((userInput = userIn.readLine()) != null) {
 								out.println(userInput);
 								System.out.println("echo: " + in.readLine());
