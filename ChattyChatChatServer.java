@@ -13,7 +13,6 @@ public class ChattyChatChatServer {
 	public static void main(String[] args) throws IOException{
 		boolean server = true;
 		ServerSocket listener = null;
-		Socket socket = null;
 		int portNumber = Integer.parseInt(args[0]);
 
 		 		try {
@@ -29,19 +28,14 @@ public class ChattyChatChatServer {
 
 		 			try {
 
-		 				listener.accept();
 		 				ChatHandler chat = new ChatHandler(listener.accept(), clientNumber, "default");
-		 				DataInputStream dis = new DataInputStream(socket.getInputStream());
-		 	            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 		 				System.out.println("Assigning thread to new client");
 		 				//Thread a = new Thread(chat);
-		 			//	ChatHandler chat = new ChatHandler(socket,"client " + clientNumber, dis, dos);
-                        new Thread(chat).start();
 		 				synchronized(chathandlers) {
 		 				chathandlers.add(chat);  //tell all the other threads that this new chat has joined
-
 		 				}
 
+            new Thread(chat).start();
 		 				// a.start();
 		 				clientNumber++;
 
@@ -52,7 +46,7 @@ public class ChattyChatChatServer {
 
 		 			finally {
 		 				try {
-		 					//listener.close();
+		 				//	listener.close();
 
 		 				}catch (Exception e) {
 		 				   //it's okay
