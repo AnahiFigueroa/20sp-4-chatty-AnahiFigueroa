@@ -11,15 +11,12 @@ public class ChatHandler implements Runnable {
 	int clientNumber = 0;
 	String clientName = "";
 	Socket s;
-	DataInputStream dis = null;
-  DataOutputStream dos = null;
 
 	public ChatHandler(Socket socket, int i, String a ) {
 		clientNumber = i;
 		clientName = a;
 		s = socket;
-		this.dis = dis;
-		this.dos = dos;
+
 	}
 
 
@@ -37,11 +34,11 @@ public class ChatHandler implements Runnable {
 		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 		boolean done = false;
 		while (!done) {
-			String received;
+			//String received;
 			String userInput = "";
 			try {
-				received = dis.readUTF();
-				System.out.println(received);
+				//received = dis.readUTF();
+				//System.out.println(received);
 				//System.out.println("Chathandler");
 				userInput = userIn.readLine();
 				userInput.split("");  //returns array of strings
@@ -61,8 +58,8 @@ public class ChatHandler implements Runnable {
 					}
 					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
 						if(input[1]== chat.clientName) {
-							//PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
-							chat.dos.writeUTF(message); //printing to the person's chathandler
+							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
+							temp.println(message); //printing to the person's chathandler
 						}
 					}
 
@@ -77,11 +74,10 @@ public class ChatHandler implements Runnable {
 						message += input[i] + " ";
 					}
 					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
-							//PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
-							chat.dos.writeUTF(message); //printing to the person's chathandler
+							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
+							temp.println(message); //printing to the person's chathandler
 
 					}
-
 
 				}
 
