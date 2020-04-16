@@ -18,15 +18,12 @@ public class ChattyChatChatClient {
 		try {
 
 			socket = new Socket (hostname, portNumber);
-			DataInputStream dis = new DataInputStream(socket.getInputStream());
-	    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+			BufferedReader in =
+				new BufferedReader(
+				new InputStreamReader(
+				socket.getInputStream()));
 
-//			BufferedReader in =
-//				new BufferedReader(
-//				new InputStreamReader(
-//				socket.getInputStream()));
-
-			//PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
@@ -34,25 +31,23 @@ public class ChattyChatChatClient {
 			Thread sendmessage = new Thread(new Runnable() {
 				  @Override
 				  public void run() {
-
-				//  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+				  BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 					boolean done = false;
 					while (!done) {
 
-						//String userInput = "";
-						String userInput = scn.nextLine();
+						String userInput = "";
+
 						try {
 
-							//userInput = userIn.readLine();
-							dos.writeUTF(userInput);
-	            System.out.println("Sending in message:");
+							userInput = userIn.readLine();
+	           System.out.println("Sending in message:");
 
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 
-						// out.println(userInput);
-					  // dos.flush();                                  //resets it
+						 out.println(userInput);
+					   out.flush();                                  //resets it
 
 					}//END while
 				}
@@ -66,11 +61,10 @@ public class ChattyChatChatClient {
 					boolean done = false;
 
 					while (!done) {
-						System.out.println("reading message");
-					//	String userInput = "";
+
+					String userInput = "";
 						try {
-              String userInput = dis.readUTF();
-						//	userInput = in.readLine();
+							userInput = in.readLine();    //reads line
 							System.out.println(userInput);
 
 						} catch (IOException e) {
