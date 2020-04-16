@@ -1,6 +1,6 @@
 import java.io.*;
+import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
 
 
 public class ChattyChatChatClient {
@@ -11,7 +11,6 @@ public class ChattyChatChatClient {
 		String hostname = args[0];   //taking in a string from argument
 		Socket socket = null;
 		int portNumber = Integer.parseInt(args[1]);
-		Scanner scn = new Scanner(System.in);
 
 
 
@@ -24,6 +23,7 @@ public class ChattyChatChatClient {
 				socket.getInputStream()));
 
 			PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+
 
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
@@ -39,8 +39,14 @@ public class ChattyChatChatClient {
 
 						try {
 
-							userInput = userIn.readLine();
-	           System.out.println("Sending in message:");
+							while ((userInput = userIn.readLine()) != null) {
+								out.println(userInput);
+								System.out.println("echo: " + in.readLine());
+
+							}
+
+//							userInput = userIn.readLine();
+//							System.out.println("Sending in message:");
 
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -64,8 +70,13 @@ public class ChattyChatChatClient {
 
 					String userInput = "";
 						try {
-							userInput = in.readLine();    //reads line
-							System.out.println(userInput);
+
+							while ((userInput = in.readLine()) != null) {
+								out.println(userInput);
+								System.out.println("echo: " + in.readLine());
+							}
+//							userInput = in.readLine();    //reads line
+//							System.out.println(userInput);
 
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
