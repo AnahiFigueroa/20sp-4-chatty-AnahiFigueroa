@@ -1,18 +1,19 @@
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
 
 
 public class ChatHandler implements Runnable {
 	int clientNumber = 0;
 	String clientName = "";
-	Socket s;
 	DataInputStream dis = null;
-  DataOutputStream dos = null;
+    DataOutputStream dos = null;
+	Socket s;
 
 	public ChatHandler(Socket socket, int i, String a ) {
 		clientNumber = i;
@@ -23,12 +24,18 @@ public class ChatHandler implements Runnable {
 	}
 
 
-  @SuppressWarnings("null")
+	public ChatHandler(Socket socket, String string, DataInputStream dis2, DataOutputStream dos2) {
+
+	}
+
+
+	@SuppressWarnings("null")
 	@Override
 	public void run() {
 		PrintWriter out = null;
+		String received;
+
 		try {
-			// receive the string
 
 			out = new PrintWriter(s.getOutputStream(), true);
 		} catch (IOException e1) {
@@ -37,15 +44,16 @@ public class ChatHandler implements Runnable {
 		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 		boolean done = false;
 		while (!done) {
-			String received;
 			String userInput = "";
 			try {
-				received = dis.readUTF();
-				System.out.println(received);
-				//System.out.println("Chathandler");
+
+				// receive the string
+                received = dis.readUTF();
+                System.out.println(received);
+
 				userInput = userIn.readLine();
-				userInput.split("");  //returns array of strings
-				String[] input = userInput.split("");
+				userInput.split("");
+				String[] input = null;
 
 				if(input[0] == "/quit") {
 					done = true;
