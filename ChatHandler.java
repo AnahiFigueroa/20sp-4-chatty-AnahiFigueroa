@@ -1,19 +1,18 @@
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 
 
 public class ChatHandler implements Runnable {
 	int clientNumber = 0;
 	String clientName = "";
-	DataInputStream dis = null;
-    DataOutputStream dos = null;
 	Socket s;
+	DataInputStream dis = null;
+  DataOutputStream dos = null;
 
 	public ChatHandler(Socket socket, int i, String a ) {
 		clientNumber = i;
@@ -24,18 +23,12 @@ public class ChatHandler implements Runnable {
 	}
 
 
-	public ChatHandler(Socket socket, String string, DataInputStream dis2, DataOutputStream dos2) {
-
-	}
-
-
-	@SuppressWarnings("null")
+  @SuppressWarnings("null")
 	@Override
 	public void run() {
 		PrintWriter out = null;
-		String received;
-
 		try {
+			// receive the string
 
 			out = new PrintWriter(s.getOutputStream(), true);
 		} catch (IOException e1) {
@@ -44,16 +37,15 @@ public class ChatHandler implements Runnable {
 		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 		boolean done = false;
 		while (!done) {
+			String received;
 			String userInput = "";
 			try {
-
-				// receive the string
-                received = dis.readUTF();
-                System.out.println(received);
-
+				received = dis.readUTF();
+				System.out.println(received);
+				//System.out.println("Chathandler");
 				userInput = userIn.readLine();
-				userInput.split("");
-				String[] input = null;
+				userInput.split("");  //returns array of strings
+				String[] input = userInput.split("");
 
 				if(input[0] == "/quit") {
 					done = true;
@@ -69,8 +61,8 @@ public class ChatHandler implements Runnable {
 					}
 					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
 						if(input[1]== chat.clientName) {
-							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
-							temp.println(message); //printing to the person's chathandler
+							//PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
+							chat.dos.writeUTF(message); //printing to the person's chathandler
 						}
 					}
 
@@ -85,8 +77,8 @@ public class ChatHandler implements Runnable {
 						message += input[i] + " ";
 					}
 					for ( ChatHandler chat: ChattyChatChatServer.chathandlers) {
-							PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
-							temp.println(message); //printing to the person's chathandler
+							//PrintWriter temp = new PrintWriter(chat.s.getOutputStream(), true);
+							chat.dos.writeUTF(message); //printing to the person's chathandler
 
 					}
 
