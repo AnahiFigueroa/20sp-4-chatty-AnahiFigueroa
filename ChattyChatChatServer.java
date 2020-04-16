@@ -10,9 +10,10 @@ public class ChattyChatChatServer {
 	static Vector<ChatHandler> chathandlers = new Vector <ChatHandler>();
 	static int clientNumber = 0;
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
 		boolean server = true;
 		ServerSocket listener = null;
+		Socket s = null;
 		int portNumber = Integer.parseInt(args[0]);
 
 		 		try {
@@ -36,8 +37,16 @@ public class ChattyChatChatServer {
 		 				chathandlers.add(chat);  //tell all the other threads that this new chat has joined
 		 				}
 
-		 				a.start();
-		 				clientNumber++;
+		 				  ObjectInputStream input = new ObjectInputStream(s.getInputStream());
+		 	               while(true){
+		 	                 Object object = input.readObject();
+		 	                 String command = ((String) object).trim(); //trim the string
+		 	                 System.out.println(command);
+		 	                 clientNumber++;
+		 	              }
+
+		 				//a.start();
+
 
 		 			} catch (IOException e) {
 		 				System.out.println("Error while talking with client" + clientNumber);
