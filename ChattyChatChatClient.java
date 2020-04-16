@@ -69,7 +69,7 @@ public class ChattyChatChatClient {
 						System.out.println("reading message");
 					//	String userInput = "";
 						try {
-              String userInput = dis.readUTF();
+							String userInput = dis.readUTF();
 						//	userInput = in.readLine();
 							System.out.println(userInput);
 
@@ -93,6 +93,7 @@ public class ChattyChatChatClient {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+
 
 	}//END main()
 
