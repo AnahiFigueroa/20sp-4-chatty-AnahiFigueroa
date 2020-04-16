@@ -26,12 +26,10 @@ public class ChatHandler implements Runnable {
   @SuppressWarnings("null")
 	@Override
 	public void run() {
-		String received;
 		PrintWriter out = null;
 		try {
 			// receive the string
-			received = dis.readUTF();
-			System.out.println(received);
+
 			out = new PrintWriter(s.getOutputStream(), true);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -39,8 +37,11 @@ public class ChatHandler implements Runnable {
 		BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
 		boolean done = false;
 		while (!done) {
+			String received;
 			String userInput = "";
 			try {
+				received = dis.readUTF();
+				System.out.println(received);
 				//System.out.println("Chathandler");
 				userInput = userIn.readLine();
 				userInput.split("");  //returns array of strings
