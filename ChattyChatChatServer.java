@@ -10,60 +10,32 @@ public class ChattyChatChatServer {
 	static Vector<ChatHandler> chathandlers = new Vector <ChatHandler>();
 	static int clientNumber = 0;
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException{
+	public static void main(String[] args) throws IOException{
 		boolean server = true;
 		ServerSocket listener = null;
-		Socket s = null;
 		int portNumber = Integer.parseInt(args[0]);
 
-		 		try {
+		listener = new ServerSocket(portNumber);
+		System.out.println("Connecting to server");
 
-		 			listener = new ServerSocket(portNumber);
-		 			System.out.println("Connecting to server");
+ 	  while (server) {
+ 			try {
+ 				ChatHandler chat = new ChatHandler(listener.accept(), clientNumber, "default");
+ 				System.out.println("Assigning thread to new client");
+ 				Thread a = new Thread(chat);
 
-		 			} catch (IOException e) {
-		 				System.out.println("Error connecting to server");
-		 				server = false;
-		 			}
+        synchronized(chathandlers) {
+ 				       chathandlers.add(chat);  //tell all the other threads that this new chat has joined
+ 				}
+ 				a.start();
+ 				clientNumber++;
+ 			} catch (IOException e) {
+ 				System.out.println("Error while talking with client" + clientNumber);
+ 			}
 
-		 		while (server) {
-
-		 			try {
-
-		 				ChatHandler chat = new ChatHandler(listener.accept(), clientNumber, "default");
-		 				System.out.println("Assigning thread to new client");
-		 				Thread a = new Thread(chat);
-		 				synchronized(chathandlers) {
-		 				chathandlers.add(chat);  //tell all the other threads that this new chat has joined
-		 				}
-
-		 				  ObjectInputStream input = new ObjectInputStream(s.getInputStream());
-		 	               while(true){
-		 	                 Object object = input.readObject();
-		 	                 String command = ((String) object).trim(); //trim the string
-		 	                 System.out.println(command);
-		 	                 clientNumber++;
-		 	              }
-
-		 				//a.start();
-
-
-		 			} catch (IOException e) {
-		 				System.out.println("Error while talking with client" + clientNumber);
-		 			    listener.close();
-		 			}
-
-		 			finally {
-		 				try {
-		 				//	listener.close();
-
-		 				}catch (Exception e) {
-		 				   //it's okay
-		 				}
-		 			}
-		 		}
-
-		 	}//END main()
+ 		}
+      listener.close();
+ 	}//END main()
 
 
 } //END server
