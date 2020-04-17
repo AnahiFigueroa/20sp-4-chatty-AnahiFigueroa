@@ -1,15 +1,10 @@
 import java.io.*;
+import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
 
 
 public class ChattyChatChatClient {
-	private InputStream inputstream;
-    static Scanner scanner;
-    static String message;
-    public ChattyChatChatClient(OutputStream outputstream) {
-        this.inputstream = inputstream;
-}
+
 
 	public static void main (String[] args) {
 
@@ -33,56 +28,31 @@ public class ChattyChatChatClient {
 			//one thread needs to send messages and another threads needs to read messages
 			//each thread needs to call @override public void run
 
-			//This thread will be used for sending the message to other clients.
 			Thread sendmessage = new Thread(new Runnable() {
-				  @SuppressWarnings("null")
-				@Override
+				  @Override
 				  public void run() {
-			        scanner = new Scanner(System.in);
+
 					boolean done = false;
-
-					 OutputStream outputstream = null;
-						try {
-							ObjectOutputStream output = new ObjectOutputStream(outputstream);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
 					while (!done) {
-
 						String userInput = "";
-
 						try {
-
-							System.out.print("InputMessage: ");
-		                    message = scanner.nextLine();
-		                    System.out.println(message);
-		                    ObjectOutputStream output = null;
-							output.writeObject(message); //send the string to the server
-		                    output.flush();
-//						   BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));  //reading user's input from console
-//                           System.out.println("Sending message: ");
-//							while ((userInput = userIn.readLine()) != null) {
-//								System.out.println("Inside while loop for sendmessage");
-//								out.println(userInput);
-//								System.out.println("echo: " + in.readLine());
-//
-//							}
-
-//							userInput = userIn.readLine();
-//							System.out.println("Sending in message:");
+						   BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));  //reading user's input from console
+							 userInput = userIn.readLine();
+							if(userInput != null && userInput != "/quit") {
+								out.println(userInput);
+								out.flush();
+							} else {
+								done = true;
+							}
 
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-
-						System. out.println(userInput);
-					     out.flush();                                  //resets it
-
 					}//END while
 				}
 
 			});
+
 
 			Thread readmessage = new Thread(new Runnable() {
 				@Override
@@ -90,26 +60,19 @@ public class ChattyChatChatClient {
 					boolean done = false;
 
 					while (!done) {
-
-					String userInput = "";
 						try {
-
-							while ((userInput = in.readLine()) != null) {
-							System.out.println("Inside while loop for readmessage");
-								out.println(userInput);
-								System.out.println("echo: " + in.readLine());
+              String userInput = in.readLine();
+							if ( userInput != null && userInput != "/quit") {
+								System.out.println(userInput);
+							} else {
+								System.out.println("Client is quitting");
+								done = true;
+								System.exit(0);
 							}
-//							userInput = in.readLine();    //reads line
-//							System.out.println(userInput);
-
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 						}
-						// if (userInput.contentEquals("/quit")) {
-						// 	done = true;
-						// }
-						   // System.out.println(userInput);
 
 					}//END while
 				}
